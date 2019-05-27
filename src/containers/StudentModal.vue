@@ -5,7 +5,11 @@
         Additive Students List
       </template>
       <template v-slot:body>
-        <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy" :tOperationName="operationName" @clicked="onClickChild"></l-table>
+        <div>
+          <h4>Derse kayıtlı olmayan Öğrenciler</h4>
+          <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy" :tOperationName="operationName" @clicked="onClickChild"></l-table>
+          <l-table :t-data="registeredData" :t-columns="columns" :t-sort-by="sortBy"></l-table>
+        </div>
       </template>
     </modal>
 </template>
@@ -22,6 +26,7 @@ export default {
   data () {
     return {
       data: [],
+      registeredData: [],
       columns: [
         {show: 'number', label: 'Student Number', dataType: 'numeric'},
         {show: 'name', label: 'Student Name'},
@@ -48,15 +53,20 @@ export default {
       }).then(reponse => {
         this.getAdditiveStudentList()
       })
-      console.log('Student id: ' + value)
-      console.log('Student Add to Lesson')
     },
     getAdditiveStudentList: function () {
       let data = new FormData()
       data.append('lessonId', this.lessonCode)
       axios.post('/api/additive-students-list', data).then((response) => {
-        console.log('response: ' + response.data)
         this.data = response.data
+        this.getRegisteredStudentList()
+      })
+    },
+    getRegisteredStudentList () {
+      let data = new FormData()
+      data.append('lessonId', this.lessonCode)
+      axios.post('api/get-registered-students', data).then(response => {
+        this.registeredData = response.data
       })
     }
   },

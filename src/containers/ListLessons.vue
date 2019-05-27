@@ -1,9 +1,6 @@
 <template>
   <div>
     <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy" :tOperationName="operationName" @clicked="onClickChild"></l-table>
-    <nav>
-      <pagination></pagination>
-    </nav>
     <student-modal v-if="isShowModal" @close="closeModal" :lessonCode="choisenLesson"></student-modal>
   </div>
 </template>
@@ -12,13 +9,11 @@
 import lTable from '../components/Table'
 import axios from 'axios'
 import StudentModal from './StudentModal'
-import Pagination from '../components/Pagination'
 export default {
   name: 'ListLessons',
   components: {
     lTable,
-    StudentModal,
-    Pagination
+    StudentModal
   },
   data () {
     return {
