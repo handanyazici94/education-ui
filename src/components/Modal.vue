@@ -1,5 +1,5 @@
 <template>
-  <transition name="modal-fade">
+  <transition name="modal">
     <div class="modal-backdrop">
       <div class="modal"
            role="dialog"
@@ -58,7 +58,7 @@ export default {
 </script>
 <style>
   .modal-backdrop {
-    position: fixed;
+    position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
@@ -73,6 +73,7 @@ export default {
     background: #FFFFFF;
     box-shadow: 2px 2px 20px 1px;
     overflow-x: auto;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
   }

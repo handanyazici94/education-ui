@@ -4,9 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import {TableComponent, TableColumn} from 'vue-table-component'
+import Pagination from 'vue-pagination-2'
 import Paginate from 'vuejs-paginate'
 
 Vue.component('paginate', Paginate)
+Vue.component('pagination', Pagination)
 Vue.component('table-component', TableComponent)
 Vue.component('table-column', TableColumn)
 Vue.config.productionTip = false

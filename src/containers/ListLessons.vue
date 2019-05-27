@@ -1,7 +1,7 @@
 <template>
   <div>
-    <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy" :tOperationName="operationName" @clicked="onClickChild"></l-table>
-    <student-modal v-if="isShowModal" @close="closeModal" :lessonCode="choisenLesson"></student-modal>
+      <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy" :tOperationName="operationName" @clicked="onClickChild"></l-table>
+      <student-modal v-if="isShowModal" @close="closeModal" :lessonCode="selectedLesson"></student-modal>
   </div>
 </template>
 
@@ -27,23 +27,26 @@ export default {
       ],
       sortBy: 'code',
       isShowModal: false,
-      choisenLesson: '',
+      selectedLesson: '',
       operationName: 'Edit'
     }
   },
   created () {
-    axios.get('/api/all-lessons').then((response) => {
-      this.data = response.data
-    })
+    this.getAllLessons()
   },
   methods: {
     onClickChild: function (value) {
       this.isShowModal = true
-      this.choisenLesson = value
+      this.selectedLesson = value
       console.log('ListLesson Edit.Value:  ' + value)
     },
     closeModal: function () {
       this.isShowModal = false
+    },
+    getAllLessons: function () {
+      axios.get('/api/all-lessons').then((response) => {
+        this.data = response.data
+      })
     }
   }
 }

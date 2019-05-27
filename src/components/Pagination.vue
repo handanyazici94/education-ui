@@ -1,6 +1,6 @@
 <template>
   <paginate
-    :page-count="20"
+    :page-count="10"
     :page-range="3"
     :margin-pages="2"
     :click-handler="clickCallback"
@@ -16,6 +16,7 @@ export default {
   name: 'Pagination',
   methods: {
     clickCallback: function (pageNum) {
+      this.$emit('clickCallback', pageNum)
       console.log(pageNum)
     }
   }

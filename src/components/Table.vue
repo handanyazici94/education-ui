@@ -1,27 +1,39 @@
 <template>
-  <table-component
-    :data="tData"
-    :sort-by="tSortBy"
-    sort-order="asc"
-    :fiterPlaceHolder="'Search..'"
-  >
-    <template v-for="item in tColumns">
-      <table-column :key ="item.show" :show="item.show" :label="item.label" :data-type="item.dataType"></table-column>
-    </template>
-    <table-column label="Operation" v-if="tOperationName">
-      <template slot-scope="row">
-        <a href="#" @click="onClickEdit(`${row.id}`)">{{tOperationName}}</a>
+  <div>
+    <table-component
+      :data="tData"
+      :sort-by="tSortBy"
+      sort-order="asc"
+    >
+      <template v-for="item in tColumns">
+        <table-column :key ="item.show" :show="item.show" :label="item.label" :data-type="item.dataType"></table-column>
       </template>
-    </table-column>
-  </table-component>
+      <table-column label="Operation" v-if="tOperationName">
+        <template slot-scope="row">
+          <a href="#" @click="onClick(`${row.id}`)">{{tOperationName}}</a>
+        </template>
+      </table-column>
+    </table-component>
+  </div>
 </template>
 
 <script>
+import Pagination from '../components/Pagination'
 export default {
   name: 'Table',
+  components: {
+    Pagination
+  },
+  data () {
+    return {
+    }
+  },
   methods: {
-    onClickEdit (event) {
+    onClick (event) {
       this.$emit('clicked', event)
+    },
+    onClickPage (event) {
+      this.currentPage = event
     }
   },
   props: {
