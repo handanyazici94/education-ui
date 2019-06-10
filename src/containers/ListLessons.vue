@@ -1,6 +1,6 @@
 <template>
   <div>
-      <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy" :tOperationName="operationName" @clicked="onClickChild"></l-table>
+      <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy" :tOperationName="operationName" @clicked="onClickChild" @changePage="changePage"></l-table>
       <student-modal v-if="isShowModal" @close="closeModal" :lessonCode="selectedLesson"></student-modal>
   </div>
 </template>
@@ -28,7 +28,9 @@ export default {
       sortBy: 'code',
       isShowModal: false,
       selectedLesson: '',
-      operationName: 'Edit'
+      operationName: 'Edit',
+      currentPageNumber: 0,
+      pageSize: 4
     }
   },
   created () {
@@ -38,15 +40,23 @@ export default {
     onClickChild: function (value) {
       this.isShowModal = true
       this.selectedLesson = value
-      console.log('ListLesson Edit.Value:  ' + value)
     },
     closeModal: function () {
       this.isShowModal = false
     },
     getAllLessons: function () {
-      axios.get('/api/all-lessons').then((response) => {
-        this.data = response.data
+      axios.get('/api/all-lessons', {
+        params: {
+          pageNumber: this.currentPageNumber,
+          pageSize: this.pageSize
+        }
+      }).then((response) => {
+        this.data = response.data.content
       })
+    },
+    changePage: function (event) {
+      this.currentPageNumber = event - 1
+      this.getAllLessons()
     }
   }
 }

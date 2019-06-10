@@ -15,11 +15,14 @@
     "axios": "^0.18.0",
     "moment": "^2.24.0",
     "vue": "^2.5.2",
+    "vue-bootstrap-pagination": "^2.10.3",
     "vue-pagination": "^0.3.3",
     "vue-pagination-2": "^2.0.3",
     "vue-plain-pagination": "^0.3.0",
     "vue-router": "^3.0.1",
+    "vue-runtime-helpers": "^1.0.0",
     "vue-table-component": "^1.9.2",
+    "vue-tiny-pagination": "^0.3.2",
     "vuejs-paginate": "^2.1.0"
   },
   "devDependencies": {
