@@ -1,6 +1,7 @@
 <template>
   <div>
       <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy" :tOperationName="operationName" @clicked="onClickChild" @changePage="changePage"></l-table>
+      <pagination @clickCallback="changePage" :pTotalPages="totalPages"></pagination>
       <student-modal v-if="isShowModal" @close="closeModal" :lessonCode="selectedLesson"></student-modal>
   </div>
 </template>
@@ -9,11 +10,13 @@
 import lTable from '../components/Table'
 import axios from 'axios'
 import StudentModal from './StudentModal'
+import Pagination from '@/components/Pagination'
 export default {
   name: 'ListLessons',
   components: {
     lTable,
-    StudentModal
+    StudentModal,
+    Pagination
   },
   data () {
     return {
@@ -30,7 +33,8 @@ export default {
       selectedLesson: '',
       operationName: 'Edit',
       currentPageNumber: 0,
-      pageSize: 4
+      pageSize: 4,
+      totalPages: 0
     }
   },
   created () {
@@ -52,6 +56,7 @@ export default {
         }
       }).then((response) => {
         this.data = response.data.content
+        this.totalPages = response.data.totalPages
       })
     },
     changePage: function (event) {

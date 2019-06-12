@@ -1,5 +1,6 @@
 <template>
   <paginate
+    :page-count="pTotalPages"
     :no-li-surround="true"
     :page-range="3"
     :margin-pages="2"
@@ -15,14 +16,15 @@
 import Paginate from 'vuejs-paginate'
 export default {
   name: 'Pagination',
-  data () {
-    return {
+  props: {
+    pTotalPages: {
+      type: Number,
+      required: false
     }
   },
   methods: {
     clickCallback: function (pageNum) {
       this.$emit('clickCallback', pageNum)
-      console.log(pageNum)
     }
   },
   components: {

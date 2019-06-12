@@ -1,19 +1,20 @@
 <template>
   <div>
-    <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy" :tOperationName="operationName" @clicked="onClickChild" @changePage="changePage">
+    <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy">
     </l-table>
+    <pagination @clickCallback="changePage" :pTotalPages="totalPages"></pagination>
   </div>
 </template>
 
 <script>
 import lTable from '../components/Table'
 import axios from 'axios'
-import StudentModal from './StudentModal'
+import Pagination from '@/components/Pagination'
 export default {
   name: 'ListStudents',
   components: {
     lTable,
-    StudentModal
+    Pagination
   },
   data () {
     return {
@@ -26,18 +27,18 @@ export default {
       ],
       sortBy: 'name',
       currentPageNumber: 0,
-      pageSize: 4
+      pageSize: 4,
+      totalPages: 0
     }
   },
   methods: {
     getAllStudents: function () {
-      axios.get('/api/all-students', {
-        params: {
-          pageNumber: this.currentPageNumber,
-          pageSize: this.pageSize
-        }
+      axios.post('/api/all-students', {
+        pageNumber: this.currentPageNumber,
+        pageSize: this.pageSize
       }).then((response) => {
         this.data = response.data.content
+        this.totalPages = response.data.totalPages
       })
     },
     changePage: function (event) {

@@ -1,5 +1,4 @@
 <template>
-  <div>
     <table-component
       :data="tData"
       :sort-by="tSortBy"
@@ -14,32 +13,20 @@
         </template>
       </table-column>
     </table-component>
-      <pagination @clickCallback="changePage"></pagination>
-      </div>
 </template>
 
 <script>
-import Pagination from '../components/Pagination'
-// import pagination from 'vue-bootstrap-pagination'
 export default {
   name: 'Table',
   components: {
-    Pagination
   },
   data () {
     return {
-      currentTotal: 100,
-      currentPage: 1
     }
   },
   methods: {
     onClick (event) {
       this.$emit('clicked', event)
-    },
-    changePage (pagination) {
-      console.log('callback' + pagination)
-      this.currentPage = pagination.page
-      this.$emit('changePage', pagination)
     }
   },
   props: {

@@ -8,7 +8,9 @@
         <div>
           <h4>Derse kayıtlı olmayan Öğrenciler</h4>
           <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy" :tOperationName="operationName" @clicked="onClickChild"></l-table>
+            <pagination @clickCallback="changePage" :pTotalPages="totalPages" ></pagination>
           <l-table :t-data="registeredData" :t-columns="columns" :t-sort-by="sortBy"></l-table>
+            <pagination @clickCallback="changePageRegistered" :pTotalPages="registeredTotalPages"></pagination>
         </div>
       </template>
     </modal>
@@ -16,12 +18,14 @@
 <script>
 import Modal from '../components/Modal.vue'
 import lTable from '../components/Table'
+import Pagination from '@/components/Pagination'
 import axios from 'axios'
 export default {
   name: 'StudentModal',
   components: {
     Modal,
-    lTable
+    lTable,
+    Pagination
   },
   data () {
     return {
@@ -34,7 +38,13 @@ export default {
         {show: 'age', label: 'Student Age', dataType: 'numeric'}
       ],
       sortBy: 'name',
-      operationName: 'Add'
+      operationName: 'Add',
+      currentPageNumber: 0,
+      pageSize: 4,
+      totalPages: 0,
+      registeredTotalPages: 0,
+      registeredCurrentPageNumber: 0,
+      registeredPageSize: 4
     }
   },
   props: {
@@ -46,6 +56,14 @@ export default {
     closeModal () {
       this.$emit('close')
     },
+    changePage: function (event) {
+      this.currentPageNumber = event - 1
+      this.getAdditiveStudentList()
+    },
+    changePageRegistered: function (event) {
+      this.registeredCurrentPageNumber = event - 1
+      this.getRegisteredStudentList()
+    },
     onClickChild: function (value) {
       axios.post('/api/add-student-to-lesson', {
         studentId: value,
@@ -55,18 +73,30 @@ export default {
       })
     },
     getAdditiveStudentList: function () {
-      let data = new FormData()
-      data.append('lessonId', this.lessonCode)
-      axios.post('/api/additive-students-list', data).then((response) => {
-        this.data = response.data
+      axios.get('/api/additive-students-list', {
+        params: {
+          lessonId: this.lessonCode,
+          pageNumber: this.currentPageNumber,
+          pageSize: this.pageSize
+
+        }
+      }).then((response) => {
+        this.data = response.data.content
+        this.totalPages = response.data.totalPages
         this.getRegisteredStudentList()
       })
     },
     getRegisteredStudentList () {
-      let data = new FormData()
-      data.append('lessonId', this.lessonCode)
-      axios.post('api/get-registered-students', data).then(response => {
-        this.registeredData = response.data
+      axios.get('api/get-registered-students', {
+        params: {
+          lessonId: this.lessonCode,
+          pageNumber: this.registeredCurrentPageNumber,
+          pageSize: this.registeredPageSize
+
+        }
+      }).then(response => {
+        this.registeredData = response.data.content
+        this.registeredTotalPages = response.data.totalPages
       })
     }
   },
