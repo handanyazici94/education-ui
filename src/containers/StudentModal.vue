@@ -1,31 +1,30 @@
 <template>
-    <modal
-      @close="closeModal()">
-      <template v-slot:header>
-        Additive Students List
-      </template>
-      <template v-slot:body>
-        <div>
-          <h4>Derse kayıtlı olmayan Öğrenciler</h4>
-          <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy" :tOperationName="operationName" @clicked="onClickChild"></l-table>
-            <pagination @clickCallback="changePage" :pTotalPages="totalPages" ></pagination>
-          <l-table :t-data="registeredData" :t-columns="columns" :t-sort-by="sortBy"></l-table>
-            <pagination @clickCallback="changePageRegistered" :pTotalPages="registeredTotalPages"></pagination>
-        </div>
-      </template>
-    </modal>
+  <new-modal @close="closeModal">
+    <template v-slot:header>
+      Additive Students List
+    </template>
+    <template v-slot:body>
+      <div>
+        <h4>Non-registered Students</h4>
+        <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy" :tOperationName="operationName" @clicked="onClickChild"></l-table>
+        <pagination @clickCallback="changePage" :pTotalPages="totalPages" ></pagination>
+        <l-table :t-data="registeredData" :t-columns="columns" :t-sort-by="sortBy"></l-table>
+        <pagination @clickCallback="changePageRegistered" :pTotalPages="registeredTotalPages"></pagination>
+      </div>
+    </template>
+  </new-modal>
 </template>
 <script>
-import Modal from '../components/Modal.vue'
 import lTable from '../components/Table'
 import Pagination from '@/components/Pagination'
+import NewModal from '@/components/NewModal'
 import axios from 'axios'
 export default {
   name: 'StudentModal',
   components: {
-    Modal,
     lTable,
-    Pagination
+    Pagination,
+    NewModal
   },
   data () {
     return {

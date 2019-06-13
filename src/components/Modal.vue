@@ -1,6 +1,8 @@
 <template>
-  <transition name="modal">
-    <div class="modal-backdrop">
+  <transition name="modal" >
+
+    <div class="modal-backdrop" >
+      <div class="overlay" @click="close();">
       <div class="modal"
            role="dialog"
            aria-labelledby="modalTitle"
@@ -44,11 +46,17 @@
         </footer>
       </div>
     </div>
+    </div>
   </transition>
 </template>
 <script>
 export default {
   name: 'Modal',
+  data () {
+    return {
+      bol: true
+    }
+  },
   methods: {
     close () {
       this.$emit('close')
@@ -115,5 +123,18 @@ export default {
     background: #4AAE9B;
     border: 1px solid #4AAE9B;
     border-radius: 2px;
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: #00000094;
+    z-index: 999;
+    transition: opacity 0.2s ease;
   }
 </style>

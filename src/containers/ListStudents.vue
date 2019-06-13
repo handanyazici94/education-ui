@@ -1,8 +1,11 @@
 <template>
   <div>
+    <button @click="openNewModal"></button>
     <l-table :t-data="data" :t-columns="columns" :t-sort-by="sortBy">
     </l-table>
     <pagination @clickCallback="changePage" :pTotalPages="totalPages"></pagination>
+    <new-modal v-if="bol" @close="closeModal"></new-modal>
+
   </div>
 </template>
 
@@ -10,11 +13,13 @@
 import lTable from '../components/Table'
 import axios from 'axios'
 import Pagination from '@/components/Pagination'
+import NewModal from '@/components/NewModal'
 export default {
   name: 'ListStudents',
   components: {
     lTable,
-    Pagination
+    Pagination,
+    NewModal
   },
   data () {
     return {
@@ -28,7 +33,8 @@ export default {
       sortBy: 'name',
       currentPageNumber: 0,
       pageSize: 4,
-      totalPages: 0
+      totalPages: 0,
+      bol: false
     }
   },
   methods: {
@@ -44,6 +50,13 @@ export default {
     changePage: function (event) {
       this.currentPageNumber = event - 1
       this.getAllStudents()
+    },
+    closeModal: function () {
+      console.log('hefwemfl')
+      this.bol = false
+    },
+    openNewModal: function () {
+      this.bol = true
     }
   },
   created () {
