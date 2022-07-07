@@ -13,7 +13,7 @@
   "dependencies": {
     "@melmacaluso/vue-modal": "^2.1.0",
     "axios": "^0.18.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "vue": "^2.5.2",
     "vue-bootstrap-pagination": "^2.10.3",
     "vue-pagination": "^0.3.3",
